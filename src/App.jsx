@@ -10,9 +10,16 @@ function Square({ value, onSquareClick }) {
     </button>
   );
 }
+
+function Input() {
+  return;
+}
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
+  const [playerOneValue, setPlayerOneValue] = useState("");
+  const [playerTwoValue, setPlayerTwoValue] = useState("");
+
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -35,8 +42,42 @@ export default function Board() {
     status = "next player:" + (xIsNext ? "x" : "o");
   }
 
+  const handlePlayerOneChange = (event) => {
+    setPlayerOneValue(event.target.value);
+  };
+  const handlePlayerTwoChange = (event) => {
+    setPlayerTwoValue(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Player 1 value is:", playerOneValue);
+    console.log("Player 2 value is:", playerTwoValue);
+    // Gör något med player1Value och player2Value här
+  };
+
   return (
     <>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Spelare 1:{" "}
+          <input
+            value={playerOneValue}
+            name="playerOne"
+            placeholder={"Skriv här"}
+            onChange={handlePlayerOneChange}
+          />
+        </label>
+        <label>
+          Spelare 2:{" "}
+          <input
+            value={playerTwoValue}
+            name="playerTwo"
+            placeholder={"skriv här"}
+            onChange={handlePlayerTwoChange}
+          />
+        </label>
+        <button>Starta spel</button>
+      </form>
       <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
